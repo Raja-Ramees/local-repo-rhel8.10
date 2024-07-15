@@ -31,11 +31,11 @@ You should see the rhel-8.10-86_64-dvd.iso file listed.
 
 9. Create a Mount Point
 Create a directory where the ISO will be mounted:
-mkdir -p /mnt/rhel8
+mkdir -p /mnt/isomount
 
 10. Mount the ISO
 Mount the ISO file to the newly created mount point:
-mount -o loop /var/www/html/rhel8/rhel-8.10-86_64-dvd.iso /mnt/rhel8
+mount -o loop /var/www/html/rhel8/rhel-8.10-86_64-dvd.iso /mnt/isomount
 
 11. Verify the Mount
 Check if the ISO has been mounted correctly:
