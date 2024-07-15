@@ -1,0 +1,81 @@
+Creating a Local Repository on a Server
+1. Connect to the Server
+ssh cloud@<server_ip>
+
+2. Switch to the Root User
+sudo su -
+
+3. Create the Directory for the ISO
+Create a directory where you will store the ISO file:
+mkdir -p /var/www/html/rhel8
+
+4. Set Directory Permissions
+Set appropriate permissions for the directory:
+chmod 755 /var/www/html/rhel8
+
+5. Exit the Root Session
+exit
+
+6. Transfer the ISO File to the Server
+Use scp to copy the ISO file from your local machine to the server. Run this command from your local machine:
+scp /path/to/your/rhel-8.10-86_64-dvd.iso cloud@<server_ip>:/var/www/html/rhel8/
+Replace /path/to/your/rhel-8.10-86_64-dvd.iso with the actual path to the ISO file on your local machine and <server_ip> with your server's IP address.
+
+7. Reconnect to the Server via SSH
+ssh cloud@<server_ip>
+
+8. Verify the Directory and File
+Check if the ISO file is in the correct directory:
+ls /var/www/html/rhel8
+You should see the rhel-8.10-86_64-dvd.iso file listed.
+
+9. Create a Mount Point
+Create a directory where the ISO will be mounted:
+mkdir -p /mnt/rhel8
+
+10. Mount the ISO
+Mount the ISO file to the newly created mount point:
+mount -o loop /var/www/html/rhel8/rhel-8.10-86_64-dvd.iso /mnt/rhel8
+
+11. Verify the Mount
+Check if the ISO has been mounted correctly:
+df -h
+or   ls /mnt/rhel8
+
+12. Create Local Repository Directories
+Create directories for the local repository:
+sudo mkdir -p /var/www/html/repos/rhel8/BaseOS
+sudo mkdir -p /var/www/html/repos/rhel8/Appstream
+
+13. Copy Packages to the Repository
+Copy the contents from the mounted ISO to the local repository directories:
+sudo cp -r /mnt/rhel8/BaseOS/* /var/www/html/repos/rhel8/BaseOS/
+sudo cp -r /mnt/rhel8/Appstream/* /var/www/html/repos/rhel8/Appstream/
+
+14. Install createrepo if Needed
+Check if createrepo is installed:
+rpm -q createrepo
+
+If it’s not installed, install it:
+sudo yum install -y createrepo
+
+15. Create Repository Metadata
+Navigate to the repository directory:
+cd /var/www/html/repos/rhel8
+Create the repository metadata for both BaseOS and Appstream:
+
+sudo createrepo BaseOS
+sudo createrepo Appstream
+Replace <server_ip> with your actual server's IP address, and adjust file paths as necessary. This guide includes detailed instructions for transferring and handling the ISO file, structured for clarity and ease of use.
+
+
+
+
+
+
+
+
+
+
+
+
